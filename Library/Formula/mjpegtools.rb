@@ -1,8 +1,8 @@
 require 'formula'
 
 class Mjpegtools < Formula
-  url 'http://downloads.sourceforge.net/project/mjpeg/mjpegtools/2.0.0/mjpegtools-2.0.0.tar.gz'
   homepage 'http://mjpeg.sourceforge.net/'
+  url 'http://downloads.sourceforge.net/project/mjpeg/mjpegtools/2.0.0/mjpegtools-2.0.0.tar.gz'
   md5 '903e1e3b967eebcc5fe5626d7517dc46'
 
   depends_on 'pkg-config' => :build
@@ -12,14 +12,11 @@ class Mjpegtools < Formula
   depends_on 'gtk+' => :optional
   depends_on 'sdl_gfx' => :optional
 
-  # mjpegtools's binaries will fail with missing symbol errors
-  # when stripped
+  # binaries will fail with missing symbol errors when stripped
   skip_clean ['bin']
 
   def options
-    [
-      ["--without-x", "Build without X support"]
-    ]
+    [["--without-x", "Build without X support"]]
   end
 
   def install
@@ -27,7 +24,7 @@ class Mjpegtools < Formula
     args = ["--disable-dependency-tracking",
             "--enable-simd-accel",
             "--prefix=#{prefix}"]
-    args << "--without-x" if ARGV.flag? "--without-x"
+    args << "--without-x" if ARGV.include? "--without-x"
 
     system "./configure", *args
     system "make install"
